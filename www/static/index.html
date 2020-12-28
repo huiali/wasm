@@ -1,0 +1,37 @@
+<html>
+
+<body>
+    <script>
+        function fib1(x) {
+            if (x <= 0) {
+                return 0;
+            }
+            if (x <= 2) {
+                return 1;
+            }
+            return fib1(x - 1) + fib1(x - 2);
+        }
+
+        console.time("javascript-fib");
+        console.log('%c' + fib1(41), 'color:green');
+        console.timeEnd("javascript-fib");
+
+
+
+        (async() => {
+            const response = await fetch('./pkg/rust_wasm_bg.wasm');
+            const bytes = await response.arrayBuffer();
+            const {
+                instance
+            } = await WebAssembly.instantiate(bytes, {});
+
+            const wasm = instance.exports;
+            console.log('%c' + wasm, 'color:orange');
+            console.time('wasm-fib');
+            console.log('%c' + wasm.fib(41), 'color: blue');
+            console.timeEnd('wasm-fib');
+        })();
+    </script>
+</body>
+
+</html>

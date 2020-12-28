@@ -1,0 +1,4 @@
+npm install -g live-server
+
+
+npm init -y
