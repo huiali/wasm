@@ -10,3 +10,6 @@ md5="0.7"
 
 
 wasm-pack build
+
+
+static -->wasm-pack build --target no-modules

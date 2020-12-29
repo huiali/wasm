@@ -1,5 +1,9 @@
 <html>
 
+<head>
+    <script src="pkg/rust_wasm.js"></script>
+</head>
+
 <body>
     <script>
         function fib1(x) {
@@ -13,24 +17,21 @@
         }
 
         console.time("javascript-fib");
-        console.log('%c' + fib1(41), 'color:green');
+        console.log('%c' + fib1(40), 'color:green');
         console.timeEnd("javascript-fib");
 
 
+        const {
+            fib
+        } = wasm_bindgen;
 
-        (async() => {
-            const response = await fetch('./pkg/rust_wasm_bg.wasm');
-            const bytes = await response.arrayBuffer();
-            const {
-                instance
-            } = await WebAssembly.instantiate(bytes, {});
-
-            const wasm = instance.exports;
-            console.log('%c' + wasm, 'color:orange');
+        async function run() {
+            await wasm_bindgen('./pkg/rust_wasm_bg.wasm');
             console.time('wasm-fib');
-            console.log('%c' + wasm.fib(41), 'color: blue');
+            console.log('%c' + fib(40), 'color: orange');
             console.timeEnd('wasm-fib');
-        })();
+        }
+        run();
     </script>
 </body>
 
